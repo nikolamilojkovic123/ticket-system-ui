@@ -9,13 +9,25 @@ Blazor WebAssembly frontend for the TicketSystem platform. Features AI-powered t
 ## Screenshots
 
 ### Dashboard
-![Dashboard](home2.png)
+![Dashboard](dashboard.jpg)
 
-### Create Ticket
-![Create Ticket](create2.png)
+### Ticket List
+![Ticket List](TicketList.jpg)
+
+### Ticket Filters
+![Ticket Filters](ticketFilter.jpg)
+
+### Document RAG Q&A
+![Document RAG](rag.jpg)
+
+### Admin Panel & Notifications
+![Admin Panel](adnminpanel.jpg)
+
+### Admin Panel
+![Admin Panel Details](notification.jpg)
 
 ### Settings
-![Settings](settings2.png)
+![Settings](settings.jpg)
 
 ---
 
