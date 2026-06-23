@@ -1,0 +1,86 @@
+@using TicketSystem.UI.Models
+@using TicketSystem.UI.Services
+@using Microsoft.Extensions.Localization
+@using TicketSystem.UI.Resources
+@inject IStringLocalizer<AppResources> L
+@implements IDisposable
+
+@if (NotificationService.IsPanelOpen)
+{
+    <div class="notification-overlay" @onclick="NotificationService.ClosePanel"></div>
+}
+
+<div class="notification-panel @(NotificationService.IsPanelOpen ? "open" : "")">
+
+    <div class="notification-header">
+        <div class="notification-header-left">
+            <i class="bi bi-bell-fill"></i>
+            <span>@L["Notifications"]</span>
+            @if (NotificationService.UnreadCount > 0)
+            {
+                <span class="header-badge">@NotificationService.UnreadCount</span>
+            }
+        </div>
+        <div class="notification-header-actions">
+            @if (NotificationService.UnreadCount > 0)
+            {
+                <button class="btn-text" @onclick="NotificationService.MarkAllAsRead">
+                    @L["MarkAllRead"]
+                </button>
+            }
+            <button class="close-btn" @onclick="NotificationService.ClosePanel">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="notification-list">
+        @if (!NotificationService.Notifications.Any())
+        {
+            <div class="notification-empty">
+                <i class="bi bi-bell-slash"></i>
+                <p>@L["AllCaughtUp"]</p>
+                <span>@L["NoNewNotifications"]</span>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in NotificationService.Notifications)
+            {
+                <div class="notification-item @(item.IsRead ? "is-read" : "is-unread") @(item.TicketId.HasValue ? "is-clickable" : "")"
+                     @onclick="() => HandleItemClick(item)">
+                    <div class="notification-type-icon type-@item.Type.ToString().ToLower()">
+                        <i class="bi @GetTypeIcon(item.Type)"></i>
+                    </div>
+                    <div class="notification-body">
+                        <div class="notification-title">@item.Title</div>
+                        <div class="notification-message">@item.Message</div>
+                        <div class="notification-time">
+                            @FormatTime(item.CreatedAt)
+                            @if (item.TicketId.HasValue)
+                            {
+                                <span class="notification-link-hint">
+                                    <i class="bi bi-arrow-right"></i> @L["OpenTicket"]
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <button class="dismiss-btn"
+                            @onclick:stopPropagation="true"
+                            @onclick="() => NotificationService.Remove(item.Id)">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            }
+        }
+    </div>
+
+    @if (NotificationService.Notifications.Any())
+    {
+        <div class="notification-footer">
+            <button class="btn-text danger" @onclick="NotificationService.ClearAll">
+                <i class="bi bi-trash3"></i> @L["ClearAll"]
+            </button>
+        </div>
+    }
+</div>

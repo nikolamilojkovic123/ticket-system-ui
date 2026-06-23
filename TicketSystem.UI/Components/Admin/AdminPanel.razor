@@ -1,0 +1,177 @@
+@page "/admin"
+@attribute [Authorize(Roles = "Admin")]
+@using Microsoft.AspNetCore.Authorization
+
+<div class="page-header d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">@L["AdminPanel"]</h2>
+        <p class="text-muted small mb-0">@L["AdminSubtitle"]</p>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="row g-3 mb-4">
+        @for (int i = 0; i < 4; i++)
+        {
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm p-3">
+                    <div class="skeleton skeleton-sm mb-2"></div>
+                    <div class="skeleton skeleton-lg"></div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card border-0 shadow-sm p-4">
+        @for (int i = 0; i < 5; i++)
+        {
+            <div class="skeleton skeleton-row mb-3"></div>
+        }
+    </div>
+}
+else if (stats.Count == 0)
+{
+    <div class="text-center my-5 p-5 bg-white rounded shadow-sm">
+        <i class="bi bi-people fs-1 text-muted"></i>
+        <h4 class="mt-3">@L["NoData"]</h4>
+        <p class="text-muted">@L["NoDataDescription"]</p>
+    </div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="summary-card card border-0 shadow-sm">
+                <div class="summary-icon bg-primary-subtle text-primary">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="summary-value">@stats.Count</div>
+                <div class="summary-label">@L["Users"]</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="summary-card card border-0 shadow-sm">
+                <div class="summary-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-ticket-perforated-fill"></i>
+                </div>
+                <div class="summary-value">@TotalTickets</div>
+                <div class="summary-label">@L["TotalTickets"]</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="summary-card card border-0 shadow-sm">
+                <div class="summary-icon bg-success-subtle text-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="summary-value">@OverallResolutionRate%</div>
+                <div class="summary-label">@L["Resolved"]</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="summary-card card border-0 shadow-sm">
+                <div class="summary-icon bg-info-subtle text-info">
+                    <i class="bi bi-trophy-fill"></i>
+                </div>
+                <div class="summary-value summary-value-sm">@TopPerformer</div>
+                <div class="summary-label">@L["TopPerformer"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-transparent border-0 pt-3 pb-0 px-4">
+            <h6 class="fw-semibold mb-0">@L["UserOverview"]</h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 stats-table">
+                <thead>
+                    <tr>
+                        <th class="ps-4">#</th>
+                        <th>@L["User"]</th>
+                        <th class="text-center">@L["Total"]</th>
+                        <th class="text-center">@L["Open"]</th>
+                        <th class="text-center">@L["InProgress"]</th>
+                        <th class="text-center">@L["Closed"]</th>
+                        <th style="min-width:120px">@L["SuccessRate"]</th>
+                        <th class="text-end pe-4">@L["AvgResolution"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int rank = 1; }
+                    @foreach (var s in stats)
+                    {
+                        <tr>
+                            <td class="ps-4 text-muted fw-bold">@rank</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    @if (!string.IsNullOrEmpty(s.AvatarUrl))
+                                    {
+                                        <img src="@s.AvatarUrl" class="user-avatar-img" alt="@s.Name" />
+                                    }
+                                    else
+                                    {
+                                        <div class="user-avatar-fallback">@(s.Name.Length > 0 ? s.Name[0] : '?')</div>
+                                    }
+                                    <span class="fw-medium">@s.Name</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary-subtle text-secondary fw-semibold px-2">@s.Total</span>
+                            </td>
+                            <td class="text-center">
+                                @if (s.OpenCount > 0)
+                                {
+                                    <span class="badge bg-primary-subtle text-primary fw-semibold px-2">@s.OpenCount</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">—</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (s.InProgressCount > 0)
+                                {
+                                    <span class="badge bg-warning-subtle text-warning fw-semibold px-2">@s.InProgressCount</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">—</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (s.ClosedCount > 0)
+                                {
+                                    <span class="badge bg-success-subtle text-success fw-semibold px-2">@s.ClosedCount</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">—</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="resolution-bar-track flex-grow-1">
+                                        <div class="resolution-bar-fill @ResolutionBarClass(s.ResolutionRate)"
+                                             style="width: @((int)Math.Round(s.ResolutionRate))%"></div>
+                                    </div>
+                                    <span class="resolution-pct small fw-medium">@((int)Math.Round(s.ResolutionRate))%</span>
+                                </div>
+                            </td>
+                            <td class="text-end pe-4">
+                                @if (s.AvgResolutionDays.HasValue)
+                                {
+                                    <span class="fw-medium">@s.AvgResolutionDays.Value.ToString("0.#") d</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">N/A</span>
+                                }
+                            </td>
+                        </tr>
+                        rank++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

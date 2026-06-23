@@ -1,0 +1,16 @@
+﻿@using Microsoft.Extensions.Localization
+@using TicketSystem.UI.Resources
+@inject IStringLocalizer<AppResources> L
+
+<div class="ai-drawer @(IsOpen ? "open" : "")">
+
+    <div class="ai-header">
+        <span><i class="bi bi-robot me-2"></i> @L["AiAssistant"]</span>
+        <button class="btn-close btn-close-white shadow-none" @onclick="Close"></button>
+    </div>
+
+    <div class="ai-content">
+        <AiChat Messages="Messages" OnSend="HandleSend" />
+    </div>
+
+</div>

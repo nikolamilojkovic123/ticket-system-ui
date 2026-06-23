@@ -1,0 +1,7 @@
+﻿<div class="d-flex @(Message.IsUser ? "justify-content-end" : "justify-content-start") mb-2">
+
+    <div class="ai-bubble @(Message.IsUser ? "user" : "bot")">
+        @Message.Text
+    </div>
+
+</div>

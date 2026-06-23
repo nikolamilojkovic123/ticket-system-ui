@@ -1,0 +1,8 @@
+﻿@page "/not-found"
+@layout MainLayout
+@using Microsoft.Extensions.Localization
+@using TicketSystem.UI.Resources
+@inject IStringLocalizer<AppResources> L
+
+<h3>@L["NotFound"]</h3>
+<p>@L["NotFoundDescription"]</p>

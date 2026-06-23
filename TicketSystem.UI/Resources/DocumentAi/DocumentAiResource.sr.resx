@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DocumentAiTitle" xml:space="preserve">
+    <value>CommsCenter AI - Pretraga Dokumenata</value>
+  </data>
+  <data name="Step1Label" xml:space="preserve">
+    <value>1. Izaberi dokument (PDF ili TXT)</value>
+  </data>
+  <data name="SelectedFilePrefix" xml:space="preserve">
+    <value>Izabran fajl:</value>
+  </data>
+  <data name="Step2Label" xml:space="preserve">
+    <value>2. Izaberi jezik za čitanje odgovora</value>
+  </data>
+  <data name="LanguageSerbian" xml:space="preserve">
+    <value>Srpski</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Engleski</value>
+  </data>
+  <data name="Step2Hint" xml:space="preserve">
+    <value>AI će pročitati generisani odgovor glasom na izabranom jeziku.</value>
+  </data>
+  <data name="Step3Label" xml:space="preserve">
+    <value>3. Postavi pitanje u vezi sa dokumentom</value>
+  </data>
+  <data name="QuestionPlaceholder" xml:space="preserve">
+    <value>Npr. Koji su ključni rokovi na projektu?</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="AnalyzeButton" xml:space="preserve">
+    <value>Analiziraj i Odgovori</value>
+  </data>
+  <data name="AiAnswerTitle" xml:space="preserve">
+    <value>Odgovor tvoje Llame:</value>
+  </data>
+  <data name="AudioAnswerLabel" xml:space="preserve">
+    <value>Audio zapis odgovora:</value>
+  </data>
+  <data name="AudioNotSupported" xml:space="preserve">
+    <value>Tvoj pregledač ne podržava audio element.</value>
+  </data>
+  <data name="LoadingStageUpload" xml:space="preserve">
+    <value>Učitavanje i priprema fajla sa tvog računara...</value>
+  </data>
+  <data name="LoadingStageAnalyze" xml:space="preserve">
+    <value>Backend analizira dokument, računa vektore (embeddings) i generiše odgovor... (Ovo može potrajati)</value>
+  </data>
+  <data name="EmptyResponse" xml:space="preserve">
+    <value>Sistem je vratio prazan tekstualni odgovor.</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Operacija nije uspela, ali server nije vratio detalje o grešci.</value>
+  </data>
+  <data name="ClientErrorPrefix" xml:space="preserve">
+    <value>Neočekivana greška na klijentu:</value>
+  </data>
+  <data name="AttachToTicketLabel" xml:space="preserve">
+    <value>4. Prikači odgovor na tiket</value>
+  </data>
+  <data name="SelectTicketPlaceholder" xml:space="preserve">
+    <value>Izaberi tiket...</value>
+  </data>
+  <data name="SendToTicketButton" xml:space="preserve">
+    <value>Pošalji na tiket</value>
+  </data>
+  <data name="AiAnswerCommentPrefix" xml:space="preserve">
+    <value>Odgovor AI asistenta za dokumente:</value>
+  </data>
+  <data name="CommentAddedSuccess" xml:space="preserve">
+    <value>Odgovor je dodat tiketu kao komentar.</value>
+  </data>
+  <data name="CommentAddedError" xml:space="preserve">
+    <value>Greška prilikom dodavanja komentara na tiket.</value>
+  </data>
+</root>

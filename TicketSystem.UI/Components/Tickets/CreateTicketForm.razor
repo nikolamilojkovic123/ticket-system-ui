@@ -1,0 +1,200 @@
+﻿@page "/ticket/create"
+@page "/ticket/edit/{Id:guid}"
+@using Microsoft.AspNetCore.Components.Forms
+@using TicketSystem.UI.Components.Shared.AiAssistant
+@using TicketSystem.UI.Models
+@inject NavigationManager Nav
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <button class="btn btn-link text-dark p-0" @onclick="Cancel">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </button>
+                <div>
+                    <h2 class="fw-bold mb-0">@L["NewRequest"]</h2>
+                    <p class="text-muted mb-0">@L["RequestDescription"]</p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm p-4">
+                <EditForm Model="@Ticket" OnValidSubmit="HandleSubmit">
+                    <DataAnnotationsValidator />
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">@L["ProblemTitle"]</label>
+                            <InputText class="form-control form-control-lg border-2"
+                                       placeholder="@L["ProblemPlaceholder"]"
+                                       @bind-Value="Ticket.Title" />
+                            <ValidationMessage For="@(() => Ticket.Title)" class="text-danger small" />
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label fw-semibold mb-0">@L["Description"]</label>
+                                <button type="button" class="btn btn-sm btn-outline-primary border-0 bg-primary bg-opacity-10 shadow-none"
+                                        @onclick="ToggleAi">
+                                    <i class="bi bi-magic me-1"></i> @L["AiHelp"]
+                                </button>
+                            </div>
+                            <InputTextArea class="form-control border-2"
+                                           rows="5"
+                                           placeholder="@L["DescriptionPlaceholder"]"
+                                           @bind-Value="Ticket.Description" />
+                            <ValidationMessage For="@(() => Ticket.Description)" class="text-danger small" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">@L["Category"]</label>
+                            <InputSelect class="form-select border-2" @bind-Value="Ticket.Category">
+                                @foreach (var c in _categories)
+                                {
+                                    <option value="@c">@c</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">@L["Priority"]</label>
+                            <InputSelect class="form-select border-2" @bind-Value="Ticket.Priority">
+                                @foreach (var p in _priorities)
+                                {
+                                    <option value="@p">@p</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">@L["Status"]</label>
+                            <InputSelect class="form-select border-2" @bind-Value="Ticket.Status">
+                                @foreach (var s in _statuses)
+                                {
+                                    <option value="@s">@s</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">@L["AssignTo"]</label>
+
+                            <InputSelect class="form-select border-2"
+                                         @bind-Value="SelectedUserId">
+
+                                <option value="">@L["Unassigned"]</option>
+
+                                @foreach (var user in _users)
+                                {
+                                    <option value="@user.Id">
+                                        @user.Name
+                                    </option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">@L["Attachment"]</label>
+                            <div class="upload-zone border-2 border-dashed rounded-3 p-3 text-center position-relative">
+                                <InputFile class="position-absolute w-100 h-100 opacity-0 top-0 start-0 cursor-pointer"
+                                           OnChange="OnFileSelected" />
+                                <i class="bi bi-cloud-arrow-up fs-2 text-primary"></i>
+                                <p class="mb-0 small">@(string.IsNullOrEmpty(SelectedFileName) ? L["UploadHint"] : SelectedFileName)</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12 pt-3">
+                            <div class="d-flex justify-content-end gap-3">
+                                <button type="button" class="btn btn-light px-4 py-2 fw-medium" @onclick="Cancel">@L["Cancel"]</button>
+                                <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow" disabled="@IsLoading">
+                                    @if (IsLoading)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                    }
+                                    @L["SubmitTicket"]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+            @if (IsEditMode)
+            {
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-2 mb-4">
+                            <i class="bi bi-chat-square-text text-primary"></i>
+                            <h5 class="fw-bold mb-0">@L["Comments"]</h5>
+                            @if (_comments.Count > 0)
+                            {
+                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill ms-1">@_comments.Count</span>
+                            }
+                        </div>
+
+                        @if (_comments.Count == 0)
+                        {
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-chat-dots fs-2 d-block mb-2 opacity-50"></i>
+                                <p class="mb-0 small">@L["NoComments"]</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="comments-thread">
+                                @foreach (TicketCommentDto comment in _comments)
+                                {
+                                    <div class="comment-item d-flex gap-3">
+                                        <div class="comment-avatar">
+                                            @(comment.Author?.FirstOrDefault().ToString().ToUpper())
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="comment-bubble">
+                                                <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                                    <span class="fw-semibold" style="font-size:0.85rem;">@comment.Author</span>
+                                                    <span class="comment-time">@FormatCommentTime(comment.CreatedAt)</span>
+                                                </div>
+                                                <p class="mb-0 small" style="white-space:pre-wrap; line-height:1.6;">@comment.Content</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        <div class="comment-compose @(_comments.Count > 0 ? "mt-4" : "mt-3")">
+                            <div class="d-flex gap-2 align-items-end">
+                                <textarea class="form-control comment-input"
+                                          rows="2"
+                                          placeholder="@L["WriteComment"]"
+                                          @bind="_newComment"
+                                          @onkeydown="HandleCommentKeyDown"></textarea>
+                                <button class="btn btn-primary comment-send-btn"
+                                        @onclick="AddComment"
+                                        disabled="@(string.IsNullOrWhiteSpace(_newComment) || _isSubmittingComment)">
+                                    @if (_isSubmittingComment)
+                                    {
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-send-fill"></i>
+                                    }
+                                </button>
+                            </div>
+                            <p class="text-muted mb-0 mt-1" style="font-size:0.72rem;">@L["CtrlEnterToSend"]</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="ai-fab-container">
+    <button class="ai-fab shadow-lg" @onclick="ToggleAi">
+        <span class="ai-sparkle">✨</span>
+    </button>
+</div>
+
+<AiAssistantDrawer IsOpen="@IsAiOpen"
+                   Messages="@Messages"
+                   OnClose="ToggleAi"
+                   OnSend="SendMessage" />

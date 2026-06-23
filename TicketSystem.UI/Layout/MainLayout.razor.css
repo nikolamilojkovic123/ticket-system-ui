@@ -1,0 +1,191 @@
+/* ─── Base layout ─── */
+.page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+main {
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.content {
+    padding-top: 1.5rem;
+}
+
+.mobile-topbar {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* ─── Desktop (≥ 768px) ─── */
+@media (min-width: 768px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .content {
+        padding-left: 2rem;
+        padding-right: 1.5rem;
+    }
+}
+
+/* ─── Mobile (< 768px) ─── */
+@media (max-width: 767.98px) {
+    .page {
+        flex-direction: column;
+    }
+
+    /* Fixed top bar */
+    .mobile-topbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        padding: 0 1rem;
+        background: #0f172a;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        z-index: 300;
+        flex-shrink: 0;
+    }
+
+    .mobile-hamburger-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 6px 8px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        flex-shrink: 0;
+    }
+
+        .mobile-hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+    .mobile-bell-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 6px 8px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        flex-shrink: 0;
+    }
+
+        .mobile-bell-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+    .mobile-bell-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .mobile-bell-badge {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        background: #ef4444;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 20px;
+        min-width: 16px;
+        text-align: center;
+        line-height: 1.5;
+        border: 2px solid #0f172a;
+    }
+
+    .mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+    }
+
+    .mobile-brand-logo {
+        background: linear-gradient(135deg, #ef4444, #b91c1c);
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .mobile-brand span {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    /* Sidebar: off-screen by default, slides in */
+    .sidebar {
+        position: fixed;
+        left: -290px;
+        top: 0;
+        height: 100vh;
+        z-index: 400;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+    }
+
+    .sidebar.mobile-open {
+        left: 0;
+    }
+
+    /* Dark overlay behind sidebar */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 350;
+        backdrop-filter: blur(2px);
+        animation: overlayFadeIn 0.2s ease;
+    }
+
+    @keyframes overlayFadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    /* Push main content below topbar */
+    main {
+        margin-top: 60px;
+    }
+
+    .content {
+        padding: 1rem !important;
+    }
+}

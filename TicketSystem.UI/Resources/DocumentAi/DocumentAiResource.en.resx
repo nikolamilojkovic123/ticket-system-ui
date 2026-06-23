@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DocumentAiTitle" xml:space="preserve">
+    <value>CommsCenter AI - Document Search</value>
+  </data>
+  <data name="Step1Label" xml:space="preserve">
+    <value>1. Choose a document (PDF or TXT)</value>
+  </data>
+  <data name="SelectedFilePrefix" xml:space="preserve">
+    <value>Selected file:</value>
+  </data>
+  <data name="Step2Label" xml:space="preserve">
+    <value>2. Choose the language for the audio answer</value>
+  </data>
+  <data name="LanguageSerbian" xml:space="preserve">
+    <value>Serbian</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Step2Hint" xml:space="preserve">
+    <value>The AI will read the generated answer aloud in the selected language.</value>
+  </data>
+  <data name="Step3Label" xml:space="preserve">
+    <value>3. Ask a question about the document</value>
+  </data>
+  <data name="QuestionPlaceholder" xml:space="preserve">
+    <value>E.g. What are the key deadlines on the project?</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="AnalyzeButton" xml:space="preserve">
+    <value>Analyze and Answer</value>
+  </data>
+  <data name="AiAnswerTitle" xml:space="preserve">
+    <value>Your Llama's answer:</value>
+  </data>
+  <data name="AudioAnswerLabel" xml:space="preserve">
+    <value>Audio recording of the answer:</value>
+  </data>
+  <data name="AudioNotSupported" xml:space="preserve">
+    <value>Your browser does not support the audio element.</value>
+  </data>
+  <data name="LoadingStageUpload" xml:space="preserve">
+    <value>Loading and preparing the file from your computer...</value>
+  </data>
+  <data name="LoadingStageAnalyze" xml:space="preserve">
+    <value>The backend is analyzing the document, computing embeddings and generating an answer... (this can take a while)</value>
+  </data>
+  <data name="EmptyResponse" xml:space="preserve">
+    <value>The system returned an empty text response.</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>The operation failed, but the server did not return error details.</value>
+  </data>
+  <data name="ClientErrorPrefix" xml:space="preserve">
+    <value>Unexpected client-side error:</value>
+  </data>
+  <data name="AttachToTicketLabel" xml:space="preserve">
+    <value>4. Attach the answer to a ticket</value>
+  </data>
+  <data name="SelectTicketPlaceholder" xml:space="preserve">
+    <value>Select a ticket...</value>
+  </data>
+  <data name="SendToTicketButton" xml:space="preserve">
+    <value>Send to ticket</value>
+  </data>
+  <data name="AiAnswerCommentPrefix" xml:space="preserve">
+    <value>AI Document Assistant answer:</value>
+  </data>
+  <data name="CommentAddedSuccess" xml:space="preserve">
+    <value>The answer was added to the ticket as a comment.</value>
+  </data>
+  <data name="CommentAddedError" xml:space="preserve">
+    <value>Failed to add the comment to the ticket.</value>
+  </data>
+</root>

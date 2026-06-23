@@ -1,0 +1,26 @@
+﻿.ai-body {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+    background: #f7f9fc;
+}
+
+.ai-input {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #eaeef5;
+}
+
+    .ai-input .form-control {
+        border-radius: 10px;
+        border: 1px solid #e5eaf1;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+        .ai-input .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 0.2rem rgba(79,172,254,0.15);
+        }

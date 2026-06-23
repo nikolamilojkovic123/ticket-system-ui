@@ -1,0 +1,113 @@
+﻿@page "/document-ai"
+@using System.Net.Http.Headers
+@using TicketSystem.UI.Models
+@using TicketSystem.UI.Interfaces
+@using Microsoft.Extensions.Localization
+@using TicketSystem.UI.Resources.DocumentAi
+
+<div class="card m-4">
+    <div class="card-header bg-primary text-white">
+        <h3><i class="bi bi-file-earmark-pdf"></i> @L["DocumentAiTitle"]</h3>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@_askModel" OnValidSubmit="HandleSubmitAsync">
+            <DataAnnotationsValidator />
+
+            <!-- STEP 1: File selection -->
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">@L["Step1Label"]</label>
+                <InputFile OnChange="OnFileSelected" class="form-control" accept=".pdf,.txt" />
+                @if (!string.IsNullOrEmpty(_askModel.FileName))
+                {
+                    <small class="text-success d-block mt-1">
+                        <i class="bi bi-check-circle-fill"></i> @L["SelectedFilePrefix"] @_askModel.FileName
+                    </small>
+                }
+            </div>
+
+            <!-- STEP 2: Audio answer language -->
+            <div class="mb-3">
+                <label class="form-label font-weight-bold"><i class="bi bi-translate"></i> @L["Step2Label"]</label>
+                <select @bind="_selectedLanguage" class="form-select">
+                    <option value="sr">@L["LanguageSerbian"] (Serbian)</option>
+                    <option value="en">@L["LanguageEnglish"] (English)</option>
+                </select>
+                <small class="text-muted">@L["Step2Hint"]</small>
+            </div>
+
+            <!-- STEP 3: Question -->
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">@L["Step3Label"]</label>
+                <textarea @bind="_askModel.Question" class="form-control" rows="3" placeholder="@L["QuestionPlaceholder"]"></textarea>
+            </div>
+
+            <div class="mb-3">
+                @if (_isProcessing)
+                {
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <div class="spinner-border text-primary me-3" role="status"></div>
+                        <div>
+                            <strong>@L["Status"]</strong> @_loadingStage
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success" disabled="@(!CanSubmit)">
+                        <i class="bi bi-cpu"></i> @L["AnalyzeButton"]
+                    </button>
+                }
+            </div>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(_aiResponse) || !string.IsNullOrEmpty(_audioSource))
+        {
+            <hr />
+            <div class="mt-4 p-3 bg-light border rounded">
+                <h5><i class="bi bi-robot text-primary"></i> @L["AiAnswerTitle"]</h5>
+
+                <p class="text-justify" style="white-space: pre-wrap;">@_aiResponse</p>
+
+                @if (!string.IsNullOrEmpty(_audioSource))
+                {
+                    <div class="mt-3 p-2 bg-white border rounded">
+                        <label class="form-label d-block font-weight-bold">
+                            <i class="bi bi-volume-up-fill text-success"></i> @L["AudioAnswerLabel"]
+                        </label>
+                        <audio controls autoplay src="@_audioSource" class="w-100">
+                            @L["AudioNotSupported"]
+                        </audio>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(_aiResponse))
+                {
+                    <div class="mt-3 p-2 bg-white border rounded">
+                        <label class="form-label d-block font-weight-bold">
+                            <i class="bi bi-paperclip"></i> @L["AttachToTicketLabel"]
+                        </label>
+                        <div class="d-flex gap-2">
+                            <select @bind="_selectedTicketIdRaw" class="form-select">
+                                <option value="">@L["SelectTicketPlaceholder"]</option>
+                                @foreach (TicketViewModel ticket in _tickets)
+                                {
+                                    <option value="@ticket.Id">@ticket.Title</option>
+                                }
+                            </select>
+                            <button type="button" class="btn btn-outline-primary text-nowrap" disabled="@(!CanSendToTicket)" @onclick="SendAnswerToTicketAsync">
+                                <i class="bi bi-send"></i> @L["SendToTicketButton"]
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger mt-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> @_errorMessage
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,61 @@
+@page "/settings"
+@using TicketSystem.UI.Resources
+
+<PageTitle>@L["Settings"]</PageTitle>
+
+<div class="page-header mb-4">
+    <h2 class="fw-bold mb-1">@L["Settings"]</h2>
+    <p class="text-muted small mb-0">@L["SettingsDescription"]</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">@L["Appearance"]</h5>
+                <p class="text-muted small mb-4">@L["AppearanceDescription"]</p>
+
+                <div class="d-flex gap-3">
+                    <button type="button"
+                            class="theme-option flex-fill @(CurrentTheme == "light" ? "active" : "")"
+                            @onclick='() => SetTheme("light")'>
+                        <i class="bi bi-sun fs-3"></i>
+                        <span>@L["LightMode"]</span>
+                    </button>
+
+                    <button type="button"
+                            class="theme-option flex-fill @(CurrentTheme == "dark" ? "active" : "")"
+                            @onclick='() => SetTheme("dark")'>
+                        <i class="bi bi-moon-stars fs-3"></i>
+                        <span>@L["DarkMode"]</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">@L["Language"]</h5>
+                <p class="text-muted small mb-4">@L["LanguageDescription"]</p>
+
+                <div class="d-flex gap-3">
+                    <button type="button"
+                            class="theme-option flex-fill @(CurrentCulture == "sr" ? "active" : "")"
+                            @onclick='() => ChangeCulture("sr")'>
+                        <span class="fs-3">🇷🇸</span>
+                        <span>Srpski</span>
+                    </button>
+
+                    <button type="button"
+                            class="theme-option flex-fill @(CurrentCulture == "en" ? "active" : "")"
+                            @onclick='() => ChangeCulture("en")'>
+                        <span class="fs-3">🇬🇧</span>
+                        <span>English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

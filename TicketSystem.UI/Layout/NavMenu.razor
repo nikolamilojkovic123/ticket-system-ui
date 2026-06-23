@@ -1,0 +1,148 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using TicketSystem.UI.Services
+@using Microsoft.Extensions.Localization
+@using TicketSystem.UI.Resources
+
+<div class="sidebar-container d-flex flex-column vh-100 @(isCollapsed ? "collapsed" : "")">
+
+    <div class="brand-section">
+        <div class="brand-logo">
+            <i class="bi bi-cpu-fill fs-3"></i>
+        </div>
+        <span class="brand-name">CommsCenter AI</span>
+        <button class="sidebar-toggle-btn" @onclick="ToggleSidebar">
+            <i class="bi @(isCollapsed ? "bi-list" : "bi-chevron-left")"></i>
+        </button>
+    </div>
+
+    <nav class="nav-section flex-grow-1">
+        <ul class="nav-list">
+            <li class="nav-item-wrapper">
+                <NavLink class="nav-custom-link" href="/" Match="NavLinkMatch.All" title="@L["Home"]">
+                    <i class="bi bi-house-door"></i>
+                    <span>@L["Home"]</span>
+                </NavLink>
+            </li>
+
+            <AuthorizeView Context="authContext">
+                <Authorized>
+                    <div class="nav-divider"><span>@L["MainMenu"]</span></div>
+
+                    <li class="nav-item-wrapper">
+                        <NavLink class="nav-custom-link" href="/tickets" title="@L["MyTickets"]">
+                            <i class="bi bi-ticket-perforated"></i>
+                            <span>@L["MyTickets"]</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item-wrapper">
+                        <NavLink class="nav-custom-link" href="/ticket/create" title="@L["NewTicket"]">
+                            <i class="bi bi-plus-circle"></i>
+                            <span>@L["NewTicket"]</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item-wrapper">
+                        <NavLink class="nav-custom-link" href="/document-ai" title="@L["AiDocuments"]">
+                            <i class="bi bi-robot text-primary"></i>
+                            <span>@L["AiDocuments"]</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item-wrapper">
+                        <NavLink class="nav-custom-link" href="/profile" title="@L["Profile"]">
+                            <i class="bi bi-person-circle"></i>
+                            <span>@L["Profile"]</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item-wrapper">
+                        <NavLink class="nav-custom-link" href="/settings" title="@L["Settings"]">
+                            <i class="bi bi-gear"></i>
+                            <span>@L["Settings"]</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item-wrapper">
+                        <button class="nav-custom-link nav-bell-btn" @onclick="NotificationService.TogglePanel" title="@L["Notifications"]">
+                            <div class="nav-bell-icon-wrap">
+                                <i class="bi bi-bell"></i>
+                                @if (NotificationService.UnreadCount > 0)
+                                {
+                                    <span class="nav-bell-badge">@(NotificationService.UnreadCount > 9 ? "9+" : NotificationService.UnreadCount.ToString())</span>
+                                }
+                            </div>
+                            <span>@L["Notifications"]</span>
+                        </button>
+                    </li>
+
+                    <AuthorizeView Roles="Admin" Context="adminContext">
+                        <Authorized>
+                            <div class="nav-divider"><span>@L["System"]</span></div>
+                            <li class="nav-item-wrapper">
+                                <NavLink class="nav-custom-link admin-link" href="/admin" title="@L["AdminPanel"]">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <span>@L["AdminPanel"]</span>
+                                </NavLink>
+                            </li>
+                        </Authorized>
+                    </AuthorizeView>
+                </Authorized>
+            </AuthorizeView>
+        </ul>
+    </nav>
+
+    <div class="dropdown lang-section p-3" style="position: relative;">
+        <button class="btn btn-sm btn-outline-light w-100"
+                type="button"
+                @onclick="ToggleDropdown">
+            🌐 @L["Language"]
+        </button>
+
+        @if (isDropdownOpen)
+        {
+            <ul class="dropdown-menu show shadow"
+                style="display: block; position: absolute; bottom: 100%; left: 15px; right: 15px; margin-bottom: 5px;">
+                <li>
+                    <button class="dropdown-item" @onclick='() => ChangeCulture("en")'>
+                        🇬🇧 English
+                    </button>
+                </li>
+                <li>
+                    <button class="dropdown-item" @onclick='() => ChangeCulture("sr")'>
+                        🇷🇸 Srpski
+                    </button>
+                </li>
+            </ul>
+        }
+    </div>
+
+    <div class="sidebar-footer">
+        <AuthorizeView Context="userContext">
+            <Authorized>
+                <div class="user-card shadow-sm">
+                    <div class="user-avatar">
+                        @userContext.User.Identity?.Name?[0]
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">@userContext.User.Identity?.Name</span>
+                        <span class="user-email">@userContext.User.FindFirst(c => c.Type == "email")?.Value</span>
+                    </div>
+                    <button class="logout-btn" @onclick="Logout" title="@L["Logout"]">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </Authorized>
+
+            <NotAuthorized>
+                <div class="login-wrapper p-3">
+                    <button class="google-login-btn w-100" @onclick="LoginGoogle">
+                        <i class="bi bi-google"></i>
+                        <span>@L["Login"]</span>
+                    </button>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
