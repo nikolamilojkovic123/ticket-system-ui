@@ -68,16 +68,10 @@
     <value>Selected file:</value>
   </data>
   <data name="Step2Label" xml:space="preserve">
-    <value>2. Choose the language for the audio answer</value>
-  </data>
-  <data name="LanguageSerbian" xml:space="preserve">
-    <value>Serbian</value>
-  </data>
-  <data name="LanguageEnglish" xml:space="preserve">
-    <value>English</value>
+    <value>2. Choose the voice for the audio answer</value>
   </data>
   <data name="Step2Hint" xml:space="preserve">
-    <value>The AI will read the generated answer aloud in the selected language.</value>
+    <value>The AI will read the generated answer aloud using the selected voice.</value>
   </data>
   <data name="Step3Label" xml:space="preserve">
     <value>3. Ask a question about the document</value>

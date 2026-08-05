@@ -1,4 +1,5 @@
 ﻿using TicketSystem.UI.Comm;
+using TicketSystem.UI.Enums;
 using TicketSystem.UI.Interfaces;
 using TicketSystem.UI.Models;
 using System.Net.Http.Headers;
@@ -17,7 +18,7 @@ public sealed class UserService(IHttpClientFactory factory) : IUserService
         string fileName,
         string contentType,
         string question,
-        string language)
+        string voice)
     {
         try
         {
@@ -36,41 +37,27 @@ public sealed class UserService(IHttpClientFactory factory) : IUserService
 
             content.Add(byteContent, "file", fileName);
             content.Add(new StringContent(question), "question");
-            content.Add(new StringContent(language), "language");
+            content.Add(new StringContent(voice), "voice");
 
             HttpResponseMessage response = await _httpClient.PostAsync("api/documents/ask", content);
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<ApiResultWrapper<DocumentAudioResponseDto>>(JsonOptions);
+                DocumentAudioResponseDto? result = await response.Content.ReadFromJsonAsync<DocumentAudioResponseDto>(JsonOptions);
 
-                return result ?? new ApiResultWrapper<DocumentAudioResponseDto>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string> { "Server je vratio uspešan status, ali prazan odgovor." }
-                };
-            }
-
-            // Ako server vrati grešku (npr. 400 Bad Request, 500 Internal Server Error...)
-            // Pokušavamo da pročitamo greške ako ih je backend poslao u našem formatu
-            try
-            {
-                var errorResult = await response.Content.ReadFromJsonAsync<ApiResultWrapper<DocumentAudioResponseDto>>(JsonOptions);
-
-                if (errorResult?.Errors != null && errorResult.Errors.Count > 0)
-                {
-                    return errorResult;
-                }
-            }
-            catch
-            {
-                // Ako backend nije vratio JSON nego običan tekst, samo nastavljamo dole na fallback poruku
+                return result is not null
+                    ? new ApiResultWrapper<DocumentAudioResponseDto> { IsSuccess = true, Data = result }
+                    : new ApiResultWrapper<DocumentAudioResponseDto>
+                    {
+                        IsSuccess = false,
+                        Errors = new List<string> { "Server je vratio uspešan status, ali prazan odgovor." }
+                    };
             }
 
             return new ApiResultWrapper<DocumentAudioResponseDto>
             {
                 IsSuccess = false,
-                Errors = new List<string> { $"Greška u komunikaciji sa backendom: {(int)response.StatusCode} {response.ReasonPhrase}" }
+                Errors = await ApiErrorReader.ReadErrorMessagesAsync(response, JsonOptions)
             };
         }
         catch (JsonException jsonEx)
@@ -96,13 +83,7 @@ public sealed class UserService(IHttpClientFactory factory) : IUserService
 
         if (response.IsSuccessStatusCode)
         {
-            ApiResultWrapper<UserProfileModel>? result = await response.Content.ReadFromJsonAsync<ApiResultWrapper<UserProfileModel>>(JsonOptions);
-
-            if (result is { IsSuccess: true })
-            {
-                return result.Data;
-            }
-
+            return await response.Content.ReadFromJsonAsync<UserProfileModel>(JsonOptions);
         }
 
         return null;
@@ -118,15 +99,10 @@ public sealed class UserService(IHttpClientFactory factory) : IUserService
             return [];
         }
 
-        ApiResultWrapper<ListResponse<UserSelectModel>>? result =
-            await response.Content.ReadFromJsonAsync<
-                ApiResultWrapper<ListResponse<UserSelectModel>>>(
-                    JsonOptions);
+        ListResponse<UserSelectModel>? result =
+            await response.Content.ReadFromJsonAsync<ListResponse<UserSelectModel>>(JsonOptions);
 
-        return result?.IsSuccess == true &&
-               result.Data is not null
-            ? result.Data.Items
-            : [];
+        return result?.Items ?? [];
     }
 
     public async Task<List<UserStatsModel>> GetUserStatsAsync()
@@ -136,28 +112,36 @@ public sealed class UserService(IHttpClientFactory factory) : IUserService
         if (!response.IsSuccessStatusCode)
             return [];
 
-        ApiResultWrapper<List<UserStatsModel>>? result =
-            await response.Content.ReadFromJsonAsync<ApiResultWrapper<List<UserStatsModel>>>(JsonOptions);
+        List<UserStatsModel>? result =
+            await response.Content.ReadFromJsonAsync<List<UserStatsModel>>(JsonOptions);
 
-        return result?.IsSuccess == true && result.Data is not null ? result.Data : [];
+        return result ?? [];
     }
 
     public async Task<bool> UpdateUserProfileAsync(UserProfileModel model)
     {
         HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"api/user", model);
 
-        if (response.IsSuccessStatusCode)
-        {
-            ApiResultWrapper<bool>? result = await response.Content.ReadFromJsonAsync<ApiResultWrapper<bool>>(JsonOptions);
+        return response.IsSuccessStatusCode;
+    }
 
-            if (result is not null)
-            {
-                return result.IsSuccess;
-            }
+    public async Task<List<AdminUserModel>> GetUsersForAdminAsync()
+    {
+        HttpResponseMessage response = await _httpClient.GetAsync("api/user/admin/all");
 
-            return true;
-        }
+        if (!response.IsSuccessStatusCode)
+            return [];
 
-        return false;
+        ListResponse<AdminUserModel>? result =
+            await response.Content.ReadFromJsonAsync<ListResponse<AdminUserModel>>(JsonOptions);
+
+        return result is not null ? [.. result.Items] : [];
+    }
+
+    public async Task<bool> UpdateUserRoleAsync(Guid userId, UserRole role)
+    {
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"api/user/{userId}/role", new { Role = role });
+
+        return response.IsSuccessStatusCode;
     }
 }

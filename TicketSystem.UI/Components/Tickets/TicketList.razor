@@ -98,11 +98,12 @@
                         <span class="filter-label">@L["Assignee"]</span>
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <select class="form-select form-select-sm filter-select"
+                                    value="@(_filter.AssigneeId?.ToString() ?? string.Empty)"
                                     @onchange="OnAssigneeChanged">
                                 <option value="">@L["All"]</option>
                                 @foreach (var u in _users)
                                 {
-                                    <option value="@u.Id" selected="@(_filter.AssigneeId == u.Id)">@u.Name</option>
+                                    <option value="@u.Id">@u.Name</option>
                                 }
                             </select>
 
@@ -110,11 +111,11 @@
                                 <span class="filter-label mb-0">@L["From"]</span>
                                 <input type="date" class="form-control form-control-sm filter-date"
                                        value="@(_filter.DateFrom?.ToString("yyyy-MM-dd") ?? "")"
-                                       @onchange="e => OnDateChanged(e, isFrom: true)" />
+                                       @onchange="async e => await OnDateChanged(e, isFrom: true)" />
                                 <span class="filter-label mb-0">@L["To"]</span>
                                 <input type="date" class="form-control form-control-sm filter-date"
                                        value="@(_filter.DateTo?.ToString("yyyy-MM-dd") ?? "")"
-                                       @onchange="e => OnDateChanged(e, isFrom: false)" />
+                                       @onchange="async e => await OnDateChanged(e, isFrom: false)" />
                             </div>
                         </div>
                     </div>

@@ -189,6 +189,9 @@
   <data name="StartWithGoogle" xml:space="preserve">
     <value>StartWithGoogle</value>
   </data>
+  <data name="OrContinueWithEmail" xml:space="preserve">
+    <value>OrContinueWithEmail</value>
+  </data>
   <data name="TicketsToday" xml:space="preserve">
     <value>TicketsToday</value>
   </data>

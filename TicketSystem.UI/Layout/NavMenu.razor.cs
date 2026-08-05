@@ -33,13 +33,9 @@ public partial class NavMenu : IDisposable
     [Inject]
     public NotificationService NotificationService { get; set; } = default!;
 
-    private bool isDropdownOpen = false;
     private bool isCollapsed = false;
 
-    private void ToggleSidebar()
-    {
-        isCollapsed = !isCollapsed;
-    }
+    private void ToggleSidebar() => isCollapsed = !isCollapsed;
 
     protected override void OnInitialized()
     {
@@ -53,11 +49,6 @@ public partial class NavMenu : IDisposable
     {
         CultureService.OnChange -= HandleStateChanged;
         NotificationService.OnChange -= HandleStateChanged;
-    }
-
-    private void ToggleDropdown()
-    {
-        isDropdownOpen = !isDropdownOpen;
     }
 
     private void LoginGoogle()
@@ -78,7 +69,6 @@ public partial class NavMenu : IDisposable
 
     private async Task ChangeCulture(string culture)
     {
-        isDropdownOpen = false;
         await CultureService.SetCultureAsync(culture);
     }
 

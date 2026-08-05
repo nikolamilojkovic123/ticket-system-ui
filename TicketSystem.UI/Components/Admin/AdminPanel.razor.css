@@ -91,7 +91,6 @@
     color: var(--bs-secondary);
 }
 
-/* Skeleton loaders */
 .skeleton {
     background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
     background-size: 200% 100%;
@@ -107,7 +106,6 @@
     100% { background-position: -200% 0; }
 }
 
-/* Dark mode */
 :root[data-bs-theme="dark"] .stats-table tbody tr:hover {
     background: rgba(255, 255, 255, 0.04);
 }

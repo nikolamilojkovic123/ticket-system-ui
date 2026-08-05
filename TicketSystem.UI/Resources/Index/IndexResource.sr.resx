@@ -189,6 +189,9 @@
   <data name="StartWithGoogle" xml:space="preserve">
     <value>Kreni sa Google-om</value>
   </data>
+  <data name="OrContinueWithEmail" xml:space="preserve">
+    <value>ili nastavi sa email-om</value>
+  </data>
   <data name="TicketsToday" xml:space="preserve">
     <value>Evo šta se dešava sa tvojim tiketima danas.</value>
   </data>

@@ -18,6 +18,12 @@ public partial class TicketList
     [Inject] public IUserService UserService { get; set; } = default!;
     [Inject] public IStringLocalizer<TicketResource> L { get; set; } = default!;
     [Inject] public ToastService ToastService { get; set; } = default!;
+
+    [SupplyParameterFromQuery(Name = "status")]
+    public string[]? StatusFilter { get; set; }
+
+    [SupplyParameterFromQuery(Name = "priority")]
+    public string[]? PriorityFilter { get; set; }
     private PagedResult<TicketViewModel>? pagedResult;
     private List<TicketViewModel>? tickets;
     private int currentPage = 1;
@@ -64,6 +70,21 @@ public partial class TicketList
     protected override async Task OnInitializedAsync()
     {
         _users = await UserService.GetUsersAsync();
+
+        if (StatusFilter is { Length: > 0 })
+        {
+            foreach (string s in StatusFilter)
+                if (Enum.TryParse<TicketStatus>(s, ignoreCase: true, out TicketStatus ps))
+                    _filter.Statuses.Add(ps);
+        }
+
+        if (PriorityFilter is { Length: > 0 })
+        {
+            foreach (string p in PriorityFilter)
+                if (Enum.TryParse<TicketPriority>(p, ignoreCase: true, out TicketPriority pp))
+                    _filter.Priorities.Add(pp);
+        }
+
         await LoadTickets();
     }
 
@@ -143,15 +164,7 @@ public partial class TicketList
         StateHasChanged();
         try
         {
-            bool ok = await TicketService.UpdateTicketAsync(ticket.Id, new CreateTicketModel
-            {
-                Title = ticket.Title,
-                Description = ticket.Description,
-                Category = ticket.Category,
-                Priority = ticket.Priority,
-                Status = targetStatus,
-                UserId = ticket.UserId
-            });
+            bool ok = await TicketService.UpdateTicketStatusAsync(ticket.Id, (int)targetStatus);
             if (!ok) { ticket.Status = prev; ToastService.ShowToast(L["Error"], L["ServerProblemTryAgain"], ToastType.Error); StateHasChanged(); }
         }
         catch { ticket.Status = prev; StateHasChanged(); }
@@ -171,18 +184,18 @@ public partial class TicketList
         else await LoadTickets();
     }
 
-    private void OnAssigneeChanged(ChangeEventArgs e)
+    private async Task OnAssigneeChanged(ChangeEventArgs e)
     {
         _filter.AssigneeId = Guid.TryParse(e.Value?.ToString(), out Guid id) ? id : null;
-        _ = ApplyFilters();
+        await ApplyFilters();
     }
 
-    private void OnDateChanged(ChangeEventArgs e, bool isFrom)
+    private async Task OnDateChanged(ChangeEventArgs e, bool isFrom)
     {
         DateTime? val = DateTime.TryParse(e.Value?.ToString(), out DateTime d) ? d : (DateTime?)null;
         if (isFrom) _filter.DateFrom = val;
         else _filter.DateTo = val;
-        _ = ApplyFilters();
+        await ApplyFilters();
     }
 
     private async Task ClearFilters()

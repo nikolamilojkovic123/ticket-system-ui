@@ -1,0 +1,42 @@
+@page "/register"
+
+<div class="auth-page d-flex align-items-center justify-content-center py-5">
+    <div class="auth-card card border-0 shadow-sm p-4">
+        <h3 class="fw-bold mb-4 text-center">@L["Register"]</h3>
+
+        <EditForm Model="model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label">@L["FirstName"]</label>
+                    <InputText class="form-control" @bind-Value="model.FirstName" />
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label">@L["LastName"]</label>
+                    <InputText class="form-control" @bind-Value="model.LastName" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@L["Email"]</label>
+                <InputText class="form-control" @bind-Value="model.Email" type="email" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@L["Password"]</label>
+                <InputText class="form-control" @bind-Value="model.Password" type="password" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@L["ConfirmPassword"]</label>
+                <InputText class="form-control" @bind-Value="model.ConfirmPassword" type="password" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" disabled="@isSubmitting">
+                @L["Register"]
+            </button>
+        </EditForm>
+
+        <p class="text-center small mt-3 mb-0">
+            @L["AlreadyHaveAccount"] <a href="/login">@L["Login"]</a>
+        </p>
+    </div>
+</div>

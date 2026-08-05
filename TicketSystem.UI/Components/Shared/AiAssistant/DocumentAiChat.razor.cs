@@ -32,7 +32,7 @@ public partial class DocumentAiChat
     private string _errorMessage = string.Empty;
     private string _audioSource = string.Empty;
 
-    private string _selectedLanguage = "sr";
+    private string _selectedVoice = "onyx";
 
     private List<TicketViewModel> _tickets = new();
     private string _selectedTicketIdRaw = string.Empty;
@@ -135,7 +135,7 @@ public partial class DocumentAiChat
                 _selectedFile.Name,
                 _selectedFile.ContentType,
                 _askModel.Question,
-                _selectedLanguage);
+                _selectedVoice);
 
             if (result.IsSuccess && result.Data is not null)
             {

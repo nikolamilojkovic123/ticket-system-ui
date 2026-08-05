@@ -25,12 +25,16 @@
                 }
             </div>
 
-            <!-- STEP 2: Audio answer language -->
+            <!-- STEP 2: Audio answer voice -->
             <div class="mb-3">
-                <label class="form-label font-weight-bold"><i class="bi bi-translate"></i> @L["Step2Label"]</label>
-                <select @bind="_selectedLanguage" class="form-select">
-                    <option value="sr">@L["LanguageSerbian"] (Serbian)</option>
-                    <option value="en">@L["LanguageEnglish"] (English)</option>
+                <label class="form-label font-weight-bold"><i class="bi bi-mic"></i> @L["Step2Label"]</label>
+                <select @bind="_selectedVoice" class="form-select">
+                    <option value="alloy">Alloy</option>
+                    <option value="echo">Echo</option>
+                    <option value="fable">Fable</option>
+                    <option value="onyx">Onyx</option>
+                    <option value="nova">Nova</option>
+                    <option value="shimmer">Shimmer</option>
                 </select>
                 <small class="text-muted">@L["Step2Hint"]</small>
             </div>

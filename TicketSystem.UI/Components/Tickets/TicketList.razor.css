@@ -1,4 +1,3 @@
-/* ── Table view ── */
 table { margin-bottom: 0; }
 
 thead th { border-bottom: 1px solid #eee; font-weight: 600; }
@@ -22,7 +21,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
     display: inline-block;
 }
 
-/* ── Filter panel ── */
+
 .filter-toggle-btn { border-radius: 8px; position: relative; }
 
 .filter-count-badge {
@@ -99,24 +98,24 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
     flex-shrink: 0;
 }
 
-/* Status chip colors */
+
 .chip-open       { border-color: #f59e0b; background: #fffbeb; color: #92400e; }
 .chip-inprogress { border-color: #2563eb; background: #eff6ff; color: #1e40af; }
 .chip-waiting    { border-color: #8b5cf6; background: #f5f3ff; color: #5b21b6; }
 .chip-closed     { border-color: #10b981; background: #ecfdf5; color: #065f46; }
 
-/* Priority chip colors */
+
 .chip-high   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
 .chip-medium { border-color: #f59e0b; background: #fffbeb; color: #92400e; }
 .chip-low    { border-color: #10b981; background: #ecfdf5; color: #065f46; }
 
-/* Category chip */
+
 .chip-category { border-color: #6366f1; background: #eef2ff; color: #3730a3; }
 
 .filter-select { width: auto; min-width: 160px; font-size: 0.85rem; }
 .filter-date   { width: 140px; font-size: 0.85rem; }
 
-/* Active filter chips */
+
 .active-filters {
     display: flex;
     flex-wrap: wrap;
@@ -154,7 +153,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
 
     .active-chip button:hover { opacity: 1; }
 
-/* ── View toggle ── */
+
 .view-toggle {
     display: flex;
     background: #f1f5f9;
@@ -186,7 +185,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
-/* ── Kanban board ── */
+
 .kanban-board {
     display: flex;
     gap: 1rem;
@@ -257,7 +256,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
     min-height: 100px;
 }
 
-/* ── Kanban card ── */
+
 .kanban-card {
     background: white;
     border-radius: 10px;
@@ -306,7 +305,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
     flex-shrink: 0;
 }
 
-/* ── Empty column ── */
+
 .kanban-empty {
     display: flex;
     flex-direction: column;
@@ -319,7 +318,7 @@ tbody tr:hover { background: #f8f9fc; transition: 0.2s; }
 
     .kanban-empty i { font-size: 1.5rem; }
 
-/* ── Dark mode ── */
+
 [data-bs-theme="dark"] .view-toggle { background: rgba(255,255,255,0.05); }
 [data-bs-theme="dark"] .view-toggle-btn.active { background: rgba(255,255,255,0.1); }
 [data-bs-theme="dark"] .kanban-column { background: rgba(255,255,255,0.03); }

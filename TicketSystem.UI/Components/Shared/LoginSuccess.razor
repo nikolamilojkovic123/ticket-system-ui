@@ -1,6 +1,5 @@
 ﻿@page "/login-callback"
 @inject NavigationManager Nav
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @inject AuthenticationStateProvider AuthStateProvider
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.WebUtilities
@@ -19,10 +18,8 @@
         {
             var jwt = token.ToString();
 
-            await LocalStorage.SetItemAsync("authToken", jwt);
-
             var customProvider = (CustomAuthStateProvider)AuthStateProvider;
-            customProvider.MarkUserAsAuthenticated(jwt);
+            await customProvider.SignInAsync(jwt);
 
             Nav.NavigateTo("/", forceLoad: true);
         }

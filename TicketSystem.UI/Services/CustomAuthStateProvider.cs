@@ -73,6 +73,12 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(authState);
     }
 
+    public async Task SignInAsync(string token)
+    {
+        await _storage.SetItemAsync("authToken", token);
+        MarkUserAsAuthenticated(token);
+    }
+
     public async Task MarkUserAsLoggedOut()
     {
         await _storage.RemoveItemAsync("authToken"); // Brišemo token iz memorije

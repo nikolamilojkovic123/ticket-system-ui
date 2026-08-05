@@ -15,7 +15,6 @@
     margin-bottom: 20px;
 }
 
-/* STAT CARDS */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -42,7 +41,6 @@
         color: #38bdf8;
     }
 
-/* CHARTS */
 .charts-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

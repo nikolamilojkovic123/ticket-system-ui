@@ -68,16 +68,10 @@
     <value>Izabran fajl:</value>
   </data>
   <data name="Step2Label" xml:space="preserve">
-    <value>2. Izaberi jezik za čitanje odgovora</value>
-  </data>
-  <data name="LanguageSerbian" xml:space="preserve">
-    <value>Srpski</value>
-  </data>
-  <data name="LanguageEnglish" xml:space="preserve">
-    <value>Engleski</value>
+    <value>2. Izaberi glas za audio odgovor</value>
   </data>
   <data name="Step2Hint" xml:space="preserve">
-    <value>AI će pročitati generisani odgovor glasom na izabranom jeziku.</value>
+    <value>AI će pročitati generisani odgovor izabranim glasom.</value>
   </data>
   <data name="Step3Label" xml:space="preserve">
     <value>3. Postavi pitanje u vezi sa dokumentom</value>

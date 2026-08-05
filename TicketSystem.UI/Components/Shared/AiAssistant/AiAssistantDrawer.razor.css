@@ -1,7 +1,7 @@
-﻿.ai-drawer {
+.ai-drawer {
     position: fixed;
     top: 0;
-    right: -400px; /* sakriven van ekrana */
+    right: -400px;
     width: 400px;
     height: 100vh;
     background: white;
@@ -9,7 +9,7 @@
     transition: right 0.3s ease;
     z-index: 9999;
     display: flex;
-    flex-direction: column; /* BITNO za layout */
+    flex-direction: column;
 }
 
     .ai-drawer.open {
@@ -29,7 +29,7 @@
 
 .ai-content {
     flex: 1;
-    overflow-y: auto; /* BITNO da chat radi */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     padding: 12px;

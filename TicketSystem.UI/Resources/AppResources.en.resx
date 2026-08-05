@@ -225,6 +225,87 @@
   <data name="AvgResolution" xml:space="preserve">
     <value>Avg. resolution</value>
   </data>
+  <data name="UserRoleManagement" xml:space="preserve">
+    <value>User Role Management</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Role updated successfully.</value>
+  </data>
+  <data name="ErrorWhileSavingRole" xml:space="preserve">
+    <value>An error occurred while saving the role.</value>
+  </data>
+  <data name="ServerErrorOccurred" xml:space="preserve">
+    <value>A server error occurred.</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="OrContinueWithEmail" xml:space="preserve">
+    <value>or continue with email</value>
+  </data>
+  <data name="ForgotPasswordLink" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="SendResetLink" xml:space="preserve">
+    <value>Send reset link</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Back to login</value>
+  </data>
+  <data name="AlreadyHaveAccount" xml:space="preserve">
+    <value>Already have an account?</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Don't have an account?</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords do not match</value>
+  </data>
+  <data name="ResetLinkSentMessage" xml:space="preserve">
+    <value>If an account with that email exists, a reset link has been sent.</value>
+  </data>
+  <data name="PasswordResetSuccessful" xml:space="preserve">
+    <value>Your password has been reset successfully. You can now log in.</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed. Please check your credentials.</value>
+  </data>
+  <data name="RegisterFailed" xml:space="preserve">
+    <value>Registration failed. Please try again.</value>
+  </data>
+  <data name="InvalidResetLink" xml:space="preserve">
+    <value>This reset link is invalid or missing a token.</value>
+  </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Not logged in</value>
   </data>

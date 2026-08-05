@@ -36,11 +36,12 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/ticket", ticket);
         if (response.IsSuccessStatusCode)
         {
-            return await response.Content.ReadFromJsonAsync<Guid>();
+            CreateTicketResponseDto? result = await response.Content.ReadFromJsonAsync<CreateTicketResponseDto>(JsonOptions);
+            return result?.TicketId ?? Guid.Empty;
         }
 
-        string errorContent = await response.Content.ReadAsStringAsync();
-        throw new Exception($"Greška na serveru: {response.StatusCode}. Detalji: {errorContent}");
+        List<string> errors = await ApiErrorReader.ReadErrorMessagesAsync(response, JsonOptions);
+        throw new Exception($"Greška na serveru: {response.StatusCode}. Detalji: {string.Join(", ", errors)}");
     }
 
     public async Task<TicketViewModel?> GetTicketByIdAsync(Guid id)
@@ -49,13 +50,7 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
 
         if (response.IsSuccessStatusCode)
         {
-            ApiResultWrapper<TicketViewModel>? result = await response.Content.ReadFromJsonAsync<ApiResultWrapper<TicketViewModel>>(JsonOptions);
-
-            if (result is { IsSuccess: true })
-            {
-                return result.Data;
-            }
-
+            return await response.Content.ReadFromJsonAsync<TicketViewModel>(JsonOptions);
         }
 
         return null;
@@ -64,6 +59,15 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
     public async Task<bool> UpdateTicketAsync(Guid ticketId, CreateTicketModel ticket)
     {
         HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"api/ticket/{ticketId}", ticket);
+
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> UpdateTicketStatusAsync(Guid ticketId, int status)
+    {
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync(
+            $"api/ticket/update-status/{ticketId}",
+            new { Status = status });
 
         return response.IsSuccessStatusCode;
     }
@@ -111,10 +115,7 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
 
         response.EnsureSuccessStatusCode();
 
-        ApiResponse<PagedResult<TicketViewModel>>? wrapper =
-            await response.Content.ReadFromJsonAsync<ApiResponse<PagedResult<TicketViewModel>>>(JsonOptions);
-
-        return wrapper?.Data
+        return await response.Content.ReadFromJsonAsync<PagedResult<TicketViewModel>>(JsonOptions)
                ?? new PagedResult<TicketViewModel>();
     }
 
@@ -127,7 +128,7 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
             return new ApiResultWrapper<TicketCommentDto>
             {
                 IsSuccess = false,
-                Errors = [$"HTTP {(int)response.StatusCode}"]
+                Errors = await ApiErrorReader.ReadErrorMessagesAsync(response, JsonOptions)
             };
         }
 
@@ -144,8 +145,11 @@ public sealed class TicketService(IHttpClientFactory factory) : ITicketService
     {
         HttpResponseMessage response = await _httpClient.GetAsync($"api/ticket/{ticketId}/comments");
 
-        ApiResultWrapper<List<TicketCommentDto>>? result = await response.Content.ReadFromJsonAsync<ApiResultWrapper<List<TicketCommentDto>>>(JsonOptions);
+        if (!response.IsSuccessStatusCode)
+            return new List<TicketCommentDto>();
 
-        return result?.Data ?? new List<TicketCommentDto>();
+        List<TicketCommentDto>? result = await response.Content.ReadFromJsonAsync<List<TicketCommentDto>>(JsonOptions);
+
+        return result ?? new List<TicketCommentDto>();
     }
 }

@@ -225,6 +225,87 @@
   <data name="AvgResolution" xml:space="preserve">
     <value>Avg. rešavanja</value>
   </data>
+  <data name="UserRoleManagement" xml:space="preserve">
+    <value>Upravljanje rolama korisnika</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rola</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Ažurirano</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Greška</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Rola je uspešno ažurirana.</value>
+  </data>
+  <data name="ErrorWhileSavingRole" xml:space="preserve">
+    <value>Došlo je do greške prilikom čuvanja role.</value>
+  </data>
+  <data name="ServerErrorOccurred" xml:space="preserve">
+    <value>Došlo je do greške na serveru.</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Ime</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Prezime</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Lozinka</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Potvrdite lozinku</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registracija</value>
+  </data>
+  <data name="OrContinueWithEmail" xml:space="preserve">
+    <value>ili nastavi sa email-om</value>
+  </data>
+  <data name="ForgotPasswordLink" xml:space="preserve">
+    <value>Zaboravili ste lozinku?</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nova lozinka</value>
+  </data>
+  <data name="SendResetLink" xml:space="preserve">
+    <value>Pošalji link za reset</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset lozinke</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Nazad na login</value>
+  </data>
+  <data name="AlreadyHaveAccount" xml:space="preserve">
+    <value>Već imate nalog?</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Nemate nalog?</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Lozinke se ne poklapaju</value>
+  </data>
+  <data name="ResetLinkSentMessage" xml:space="preserve">
+    <value>Ako nalog sa tim mejlom postoji, link za reset je poslat.</value>
+  </data>
+  <data name="PasswordResetSuccessful" xml:space="preserve">
+    <value>Lozinka je uspešno promenjena. Sada se možete prijaviti.</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Prijava nije uspela. Proverite podatke za prijavu.</value>
+  </data>
+  <data name="RegisterFailed" xml:space="preserve">
+    <value>Registracija nije uspela. Pokušajte ponovo.</value>
+  </data>
+  <data name="InvalidResetLink" xml:space="preserve">
+    <value>Link za reset lozinke nije validan ili nedostaje token.</value>
+  </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Niste prijavljeni</value>
   </data>

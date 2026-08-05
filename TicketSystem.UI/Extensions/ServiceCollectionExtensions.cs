@@ -12,6 +12,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<CultureService>();
         services.AddScoped<ThemeService>();
         services.AddSingleton<ToastService>();
